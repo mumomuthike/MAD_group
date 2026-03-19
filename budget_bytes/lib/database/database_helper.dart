@@ -55,7 +55,6 @@ class DatabaseHelper {
       CREATE TABLE users (
         user_id             INTEGER PRIMARY KEY AUTOINCREMENT,
         name                TEXT    NOT NULL,
-        campus              TEXT    NOT NULL,
         weekly_budget       REAL    NOT NULL DEFAULT 50.0,
         dietary_preferences TEXT    NOT NULL DEFAULT 'No preference'
       )
