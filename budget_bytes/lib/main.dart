@@ -129,7 +129,7 @@ class _MyAppState extends State<MyApp> {
 
               return MaterialPageRoute(
                 builder: (_) => FutureBuilder<List<MenuItem>>(
-                  // Ensure DatabaseHelper is imported and initialized
+                  // Ensuring that Database Helper is imported and initialized
                   future: DatabaseHelper.instance.getMenuItems(restaurant.id!),
                   builder: (context, snap) {
                     if (snap.connectionState == ConnectionState.waiting) {
