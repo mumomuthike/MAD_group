@@ -11,6 +11,8 @@ import 'package:budget_bytes/screens/splash_screen.dart';
 import 'package:budget_bytes/screens/home_screen.dart';
 import 'package:budget_bytes/utils/app_theme.dart';
 import 'package:budget_bytes/utils/constants.dart';
+import 'package:budget_bytes/screens/budget_tracker_screen.dart';
+import 'package:budget_bytes/models/budget_entry.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,6 +23,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double weeklyBudget = 60.0; // Matches your sampleUser budget
+    final List<BudgetEntry> entries = [];
     final sampleRestaurants = <Restaurant>[
       Restaurant(
         id: 1,
@@ -94,6 +98,8 @@ class MyApp extends StatelessWidget {
           restaurantsById: {for (final r in sampleRestaurants) r.id!: r},
         ),
         AppRoutes.profile: (_) => SettingsScreen(user: sampleUser),
+        AppRoutes.budget: (_) =>
+            BudgetScreen(weeklyBudget: weeklyBudget, entries: entries),
       },
       onGenerateRoute: (settings) {
         if (settings.name == AppRoutes.restaurant) {
