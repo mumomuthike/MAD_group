@@ -4,7 +4,7 @@
 College students often struggle to find affordable food options near campus while staying within their limited budgets. Food apps tend to focus  on restaurants in general but do not prioritize cost awareness, proximity to campus, or quick meal decisions between classes. Budget Bytes will help students quickly discover nearby food spots that match their budget, schedule, and personal preferences. The app will allow users to track their spending on meals, save all their favorite spots, and receive intuitive recommendations based on their mood, schedule, and budget.
 ---
 
-## 👥 Team Members
+## Team Members
 
 | # | Name | Student ID | Role |
 |---|------|------------|------|
