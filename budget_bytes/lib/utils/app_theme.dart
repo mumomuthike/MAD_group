@@ -263,7 +263,7 @@ class AppTheme {
     );
   }
 
-  // ─── DARK ────────────────────────────────────────────────────────────────────
+  // Dark themes
   static ThemeData get dark {
     const darkBg = Color(0xFF111111);
     const darkSurface = Color(0xFF1C1C1C);
@@ -550,7 +550,8 @@ class AppTheme {
     );
   }
 
-  // ─── COLOR SCHEMES ───────────────────────────────────────────────────────────
+  //Color schemes
+
   static const _lightColorScheme = ColorScheme(
     brightness: Brightness.light,
     primary: AppColors.primary,
