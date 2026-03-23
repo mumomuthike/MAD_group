@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:budget_bytes/utils/constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,36 +13,62 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, '/home');
+
+    Timer(AppDurations.splash, () {
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(context, AppRoutes.home);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D47A1),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/logo.png', height: 120),
-            const SizedBox(height: 20),
-            const Text(
-              'Budget Bytes',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.2,
-              ),
+      backgroundColor: AppColors.primary,
+      body: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.xl),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Image.asset(
+                      'assets/logo_splash.png', // replace with your big splash logo
+                      fit: BoxFit.contain,
+                      errorBuilder: (_, __, ___) => const Icon(
+                        Icons.lunch_dining_rounded,
+                        size: 120,
+                        color: AppColors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                Text(
+                  AppStrings.appName,
+                  style: AppTypography.splashTitle,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  AppStrings.tagline,
+                  style: AppTypography.splashSubtitle,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: AppSpacing.xl),
+                const SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3,
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.xxl),
+              ],
             ),
-            const SizedBox(height: 8),
-            const Text(
-              'Eat well. Spend smart.',
-              style: TextStyle(color: Color(0xFFFFD54F), fontSize: 16),
-            ),
-          ],
+          ),
         ),
       ),
     );
