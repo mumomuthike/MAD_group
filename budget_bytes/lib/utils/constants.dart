@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 abstract final class AppColors {
   // The  palette
@@ -56,30 +57,27 @@ abstract final class AppColors {
 }
 
 abstract final class AppTypography {
-  static const String fontDisplay = 'Fredoka'; // Chunk like font!
-  static const String fontBody = 'Nunito'; // a rounded sans
-  static const String fontAccent =
-      'Caveat'; // handwirtten cause we are cool like that
+  // Base Getters
+  static TextStyle get fontDisplay => GoogleFonts.sourGummy();
+  static TextStyle get fontBody => GoogleFonts.fresca();
+  static TextStyle get fontAccent => GoogleFonts.caveat();
 
-  // Big font
-  static const TextStyle displayLarge = TextStyle(
-    fontFamily: fontDisplay,
+  // --- Display Styles (SOur Gummy) ---
+  static final TextStyle displayLarge = fontDisplay.copyWith(
     fontSize: 52,
     fontWeight: FontWeight.w700,
     letterSpacing: -0.5,
     color: AppColors.textPrimary,
     height: 1.05,
   );
-  static const TextStyle displayMedium = TextStyle(
-    fontFamily: fontDisplay,
+  static final TextStyle displayMedium = fontDisplay.copyWith(
     fontSize: 42,
     fontWeight: FontWeight.w700,
     letterSpacing: -0.3,
     color: AppColors.textPrimary,
     height: 1.08,
   );
-  static const TextStyle displaySmall = TextStyle(
-    fontFamily: fontDisplay,
+  static final TextStyle displaySmall = fontDisplay.copyWith(
     fontSize: 34,
     fontWeight: FontWeight.w600,
     letterSpacing: -0.2,
@@ -87,25 +85,22 @@ abstract final class AppTypography {
     height: 1.1,
   );
 
-  // Headline
-  static const TextStyle headlineLarge = TextStyle(
-    fontFamily: fontDisplay,
+  // --- Headline Styles (Fredoka) ---
+  static final TextStyle headlineLarge = fontDisplay.copyWith(
     fontSize: 28,
     fontWeight: FontWeight.w700,
     letterSpacing: -0.3,
     color: AppColors.textPrimary,
     height: 1.15,
   );
-  static const TextStyle headlineMedium = TextStyle(
-    fontFamily: fontDisplay,
+  static final TextStyle headlineMedium = fontDisplay.copyWith(
     fontSize: 24,
     fontWeight: FontWeight.w600,
     letterSpacing: -0.2,
     color: AppColors.textPrimary,
     height: 1.2,
   );
-  static const TextStyle headlineSmall = TextStyle(
-    fontFamily: fontDisplay,
+  static final TextStyle headlineSmall = fontDisplay.copyWith(
     fontSize: 20,
     fontWeight: FontWeight.w600,
     letterSpacing: -0.1,
@@ -113,25 +108,22 @@ abstract final class AppTypography {
     height: 1.25,
   );
 
-  // Title
-  static const TextStyle titleLarge = TextStyle(
-    fontFamily: fontBody,
+  // --- Title Styles (Nunito) ---
+  static final TextStyle titleLarge = fontBody.copyWith(
     fontSize: 17,
     fontWeight: FontWeight.w800,
     letterSpacing: -0.1,
     color: AppColors.textPrimary,
     height: 1.3,
   );
-  static const TextStyle titleMedium = TextStyle(
-    fontFamily: fontBody,
+  static final TextStyle titleMedium = fontBody.copyWith(
     fontSize: 15,
     fontWeight: FontWeight.w700,
     letterSpacing: 0,
     color: AppColors.textPrimary,
     height: 1.35,
   );
-  static const TextStyle titleSmall = TextStyle(
-    fontFamily: fontBody,
+  static final TextStyle titleSmall = fontBody.copyWith(
     fontSize: 13,
     fontWeight: FontWeight.w700,
     letterSpacing: 0,
@@ -139,25 +131,22 @@ abstract final class AppTypography {
     height: 1.4,
   );
 
-  // Body
-  static const TextStyle bodyLarge = TextStyle(
-    fontFamily: fontBody,
+  // --- Body Styles (Nunito) ---
+  static final TextStyle bodyLarge = fontBody.copyWith(
     fontSize: 16,
     fontWeight: FontWeight.w400,
     letterSpacing: 0,
     color: AppColors.textPrimary,
     height: 1.55,
   );
-  static const TextStyle body = TextStyle(
-    fontFamily: fontBody,
+  static final TextStyle body = fontBody.copyWith(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     letterSpacing: 0,
     color: AppColors.textPrimary,
     height: 1.55,
   );
-  static const TextStyle bodySmall = TextStyle(
-    fontFamily: fontBody,
+  static final TextStyle bodySmall = fontBody.copyWith(
     fontSize: 13,
     fontWeight: FontWeight.w400,
     letterSpacing: 0,
@@ -165,143 +154,117 @@ abstract final class AppTypography {
     height: 1.5,
   );
 
-  // The Labels
-  static const TextStyle buttonLabel = TextStyle(
-    fontFamily: fontBody,
+  // --- Label Styles (Nunito) ---
+  static final TextStyle buttonLabel = fontBody.copyWith(
     fontSize: 15,
     fontWeight: FontWeight.w800,
     letterSpacing: 0.2,
   );
-  static const TextStyle caption = TextStyle(
-    fontFamily: fontBody,
+  static final TextStyle caption = fontBody.copyWith(
     fontSize: 12,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.1,
     color: AppColors.textTertiary,
     height: 1.4,
   );
-  static const TextStyle chipLabel = TextStyle(
-    fontFamily: fontBody,
+  static final TextStyle chipLabel = fontBody.copyWith(
     fontSize: 13,
     fontWeight: FontWeight.w700,
     letterSpacing: 0,
     color: AppColors.textPrimary,
   );
-  static const TextStyle tabLabel = TextStyle(
-    fontFamily: fontBody,
+  static final TextStyle tabLabel = fontBody.copyWith(
     fontSize: 13,
     fontWeight: FontWeight.w700,
     letterSpacing: 0.1,
   );
-  static const TextStyle navLabelSelected = TextStyle(
-    fontFamily: fontBody,
+  static final TextStyle navLabelSelected = fontBody.copyWith(
     fontSize: 11,
     fontWeight: FontWeight.w800,
   );
-  static const TextStyle navLabel = TextStyle(
-    fontFamily: fontBody,
+  static final TextStyle navLabel = fontBody.copyWith(
     fontSize: 11,
     fontWeight: FontWeight.w500,
   );
-  static const TextStyle listTitle = TextStyle(
-    fontFamily: fontBody,
+  static final TextStyle listTitle = fontBody.copyWith(
     fontSize: 15,
     fontWeight: FontWeight.w700,
     color: AppColors.textPrimary,
   );
-  static const TextStyle inputHint = TextStyle(
-    fontFamily: fontBody,
+  static final TextStyle inputHint = fontBody.copyWith(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     color: AppColors.textDisabled,
   );
-  static const TextStyle inputLabel = TextStyle(
-    fontFamily: fontBody,
+  static final TextStyle inputLabel = fontBody.copyWith(
     fontSize: 14,
     fontWeight: FontWeight.w600,
     color: AppColors.textSecondary,
   );
-  static const TextStyle inputError = TextStyle(
-    fontFamily: fontBody,
+  static final TextStyle inputError = fontBody.copyWith(
     fontSize: 12,
     fontWeight: FontWeight.w500,
     color: AppColors.error,
   );
 
-  static const TextStyle appBarTitle = TextStyle(
-    fontFamily: fontDisplay,
+  // --- Specific Component Styles (Fredoka) ---
+  static final TextStyle appBarTitle = fontDisplay.copyWith(
     fontSize: 22,
     fontWeight: FontWeight.w700,
     letterSpacing: -0.2,
     color: AppColors.white,
   );
-
-  static const TextStyle dialogTitle = TextStyle(
-    fontFamily: fontDisplay,
+  static final TextStyle dialogTitle = fontDisplay.copyWith(
     fontSize: 20,
     fontWeight: FontWeight.w700,
     letterSpacing: -0.1,
     color: AppColors.textPrimary,
   );
-
-  static const TextStyle accentLarge = TextStyle(
-    fontFamily: fontAccent,
-    fontSize: 20,
-    fontWeight: FontWeight.w700,
-    letterSpacing: 0.5,
-    color: AppColors.textPrimary,
-  );
-  static const TextStyle accentMedium = TextStyle(
-    fontFamily: fontAccent,
-    fontSize: 16,
-    fontWeight: FontWeight.w600,
-    letterSpacing: 0.3,
-    color: AppColors.textSecondary,
-  );
-  static const TextStyle accentSmall = TextStyle(
-    fontFamily: fontAccent,
-    fontSize: 13,
-    fontWeight: FontWeight.w600,
-    letterSpacing: 0.2,
-    color: AppColors.textTertiary,
-  );
-
-  // Eyebrow tag — "SATURDAY LUNCH", "NEAR YOU", section sub-labels
-  static const TextStyle eyebrow = TextStyle(
-    fontFamily: fontAccent,
-    fontSize: 14,
-    fontWeight: FontWeight.w700,
-    letterSpacing: 1.2,
-    color: AppColors.textTertiary,
-  );
-
-  // Price
-  static const TextStyle priceTag = TextStyle(
-    fontFamily: fontAccent,
-    fontSize: 15,
-    fontWeight: FontWeight.w700,
-    letterSpacing: 0.8,
-    color: AppColors.gold,
-  );
-
-  static const TextStyle overline = TextStyle(
-    fontFamily: fontAccent,
-    fontSize: 12,
-    fontWeight: FontWeight.w700,
-    letterSpacing: 1.6,
-    color: AppColors.textTertiary,
-  );
-
-  // splashscreen
-  static const TextStyle splashTitle = TextStyle(
-    fontFamily: fontDisplay,
+  static final TextStyle splashTitle = fontDisplay.copyWith(
     fontSize: 36,
     fontWeight: FontWeight.w700,
     letterSpacing: 0.5,
     color: AppColors.white,
   );
-  static const TextStyle splashSubtitle = TextStyle(
-    fontFamily: fontAccent,
+
+  // --- Accent Styles (Caveat) ---
+  static final TextStyle accentLarge = fontAccent.copyWith(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    letterSpacing: 0.5,
+    color: AppColors.textPrimary,
+  );
+  static final TextStyle accentMedium = fontAccent.copyWith(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    letterSpacing: 0.3,
+    color: AppColors.textSecondary,
+  );
+  static final TextStyle accentSmall = fontAccent.copyWith(
+    fontSize: 13,
+    fontWeight: FontWeight.w600,
+    letterSpacing: 0.2,
+    color: AppColors.textTertiary,
+  );
+  static final TextStyle eyebrow = fontAccent.copyWith(
+    fontSize: 14,
+    fontWeight: FontWeight.w700,
+    letterSpacing: 1.2,
+    color: AppColors.textTertiary,
+  );
+  static final TextStyle priceTag = fontAccent.copyWith(
+    fontSize: 15,
+    fontWeight: FontWeight.w700,
+    letterSpacing: 0.8,
+    color: AppColors.gold,
+  );
+  static final TextStyle overline = fontAccent.copyWith(
+    fontSize: 12,
+    fontWeight: FontWeight.w700,
+    letterSpacing: 1.6,
+    color: AppColors.textTertiary,
+  );
+  static final TextStyle splashSubtitle = fontAccent.copyWith(
     fontSize: 18,
     fontWeight: FontWeight.w600,
     letterSpacing: 0.3,

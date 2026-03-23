@@ -1,28 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:budget_bytes/utils/constants.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   AppTheme._();
 
   static ThemeData get light {
+    // 1. Create the initial base theme
     final base = ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
       colorScheme: _lightColorScheme,
       scaffoldBackgroundColor: AppColors.background,
-      fontFamily: AppTypography.fontBody,
     );
 
+    // 2. Return the base with ALL overrides using .copyWith
     return base.copyWith(
-      // App
+      // Typography: Apply Google Fonts to the base text theme
+      textTheme: GoogleFonts.nunitoTextTheme(base.textTheme).copyWith(
+        displayLarge: AppTypography.displayLarge,
+        displayMedium: AppTypography.displayMedium,
+        displaySmall: AppTypography.displaySmall,
+        headlineLarge: AppTypography.headlineLarge,
+        headlineMedium: AppTypography.headlineMedium,
+        headlineSmall: AppTypography.headlineSmall,
+        titleLarge: AppTypography.titleLarge,
+        titleMedium: AppTypography.titleMedium,
+        titleSmall: AppTypography.titleSmall,
+        bodyLarge: AppTypography.bodyLarge,
+        bodyMedium: AppTypography.body,
+        bodySmall: AppTypography.bodySmall,
+        labelLarge: AppTypography.buttonLabel,
+        labelMedium: AppTypography.caption,
+        labelSmall: AppTypography.overline,
+      ),
+
+      // App Bar
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.white,
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: false,
-        titleTextStyle: AppTypography.appBarTitle, // Fredoka
+        titleTextStyle: AppTypography.appBarTitle,
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           statusBarIconBrightness: Brightness.light,
@@ -33,14 +54,12 @@ class AppTheme {
       ),
 
       // Bottom nav
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: AppColors.white,
         selectedItemColor: AppColors.primary,
         unselectedItemColor: AppColors.textTertiary,
         elevation: 0,
         type: BottomNavigationBarType.fixed,
-        selectedLabelStyle: AppTypography.navLabelSelected,
-        unselectedLabelStyle: AppTypography.navLabel,
         showSelectedLabels: true,
         showUnselectedLabels: true,
       ),
@@ -57,7 +76,7 @@ class AppTheme {
         clipBehavior: Clip.antiAlias,
       ),
 
-      // Button
+      // Elevated Button
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
@@ -74,11 +93,11 @@ class AppTheme {
             vertical: AppSpacing.md,
           ),
           minimumSize: const Size(double.infinity, AppSizing.buttonHeight),
-          textStyle: AppTypography.buttonLabel, // Nunito 800
+          textStyle: AppTypography.buttonLabel,
         ),
       ),
 
-      // Button
+      // Outlined Button
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primary,
@@ -95,7 +114,7 @@ class AppTheme {
         ),
       ),
 
-      //Button
+      // Text Button
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primary,
@@ -106,7 +125,7 @@ class AppTheme {
         ),
       ),
 
-      //Input
+      // Input Decoration
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surfaceVariant,
@@ -147,7 +166,7 @@ class AppTheme {
         backgroundColor: AppColors.surfaceVariant,
         selectedColor: AppColors.primary,
         disabledColor: AppColors.surfaceVariant,
-        labelStyle: AppTypography.chipLabel, // Nunito 700
+        labelStyle: AppTypography.chipLabel,
         secondaryLabelStyle: AppTypography.chipLabel.copyWith(
           color: AppColors.white,
         ),
@@ -156,12 +175,12 @@ class AppTheme {
           vertical: AppSpacing.xs,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.chip), // pill
+          borderRadius: BorderRadius.circular(AppRadius.chip),
         ),
         side: BorderSide.none,
       ),
 
-      // Bottom
+      // Bottom Sheet
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: AppColors.white,
         surfaceTintColor: Colors.transparent,
@@ -187,7 +206,8 @@ class AppTheme {
         titleTextStyle: AppTypography.dialogTitle,
         contentTextStyle: AppTypography.body,
       ),
-      // Snack
+
+      // SnackBar
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.dark,
         contentTextStyle: AppTypography.body.copyWith(color: AppColors.white),
@@ -199,7 +219,7 @@ class AppTheme {
         elevation: 4,
       ),
 
-      //Action
+      // Floating Action Button
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.white,
@@ -216,7 +236,7 @@ class AppTheme {
         space: 1,
       ),
 
-      //List
+      // List Tile
       listTileTheme: ListTileThemeData(
         tileColor: AppColors.white,
         contentPadding: const EdgeInsets.symmetric(
@@ -226,7 +246,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.card),
         ),
-        titleTextStyle: AppTypography.listTitle, // Nunito 700
+        titleTextStyle: AppTypography.listTitle,
         subtitleTextStyle: AppTypography.caption,
         leadingAndTrailingTextStyle: AppTypography.caption,
         iconColor: AppColors.textSecondary,
@@ -257,7 +277,7 @@ class AppTheme {
         ),
       ),
 
-      // Progress
+      // Progress Indicator
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColors.primary,
         linearTrackColor: AppColors.border,
@@ -265,7 +285,7 @@ class AppTheme {
         linearMinHeight: AppSizing.progressBarHeight,
       ),
 
-      // Tab
+      // Tab Bar
       tabBarTheme: TabBarThemeData(
         labelColor: AppColors.primary,
         unselectedLabelColor: AppColors.textTertiary,
@@ -278,29 +298,9 @@ class AppTheme {
           AppColors.primary.withOpacity(0.06),
         ),
       ),
-
-      // Text themes
-      textTheme: TextTheme(
-        displayLarge: AppTypography.displayLarge, // Fredoka
-        displayMedium: AppTypography.displayMedium, // Fredoka
-        displaySmall: AppTypography.displaySmall, // Fredoka
-        headlineLarge: AppTypography.headlineLarge, // Fredoka
-        headlineMedium: AppTypography.headlineMedium, // Fredoka
-        headlineSmall: AppTypography.headlineSmall, // Fredoka
-        titleLarge: AppTypography.titleLarge, // Nunito
-        titleMedium: AppTypography.titleMedium, // Nunito
-        titleSmall: AppTypography.titleSmall, // Nunito
-        bodyLarge: AppTypography.bodyLarge, // Nunito
-        bodyMedium: AppTypography.body, // Nunito
-        bodySmall: AppTypography.bodySmall, // Nunito
-        labelLarge: AppTypography.buttonLabel, // Nunito 800
-        labelMedium: AppTypography.caption, // Nunito
-        labelSmall: AppTypography.overline, // Caveat
-      ),
     );
   }
 
-  // Color Scheme for teh app!
   static const _lightColorScheme = ColorScheme(
     brightness: Brightness.light,
     primary: AppColors.primary,
@@ -321,8 +321,6 @@ class AppTheme {
     onErrorContainer: AppColors.dark,
     surface: AppColors.white,
     onSurface: AppColors.dark,
-    surfaceContainerHighest: AppColors.surfaceVariant,
-    onSurfaceVariant: AppColors.textSecondary,
     outline: AppColors.border,
     outlineVariant: Color(0xFFE0E0E0),
     shadow: Colors.black,
