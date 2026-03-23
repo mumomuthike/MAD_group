@@ -4,6 +4,7 @@ import '../models/restaurant.dart';
 import 'restaurant_details_screen.dart';
 import 'ai_meal_finder_screen.dart';
 import '../widgets/restaurant_card.dart';
+import 'package:flutter/services.dart';
 
 class HomeScreen extends StatefulWidget {
   final int userId;
@@ -220,14 +221,10 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
       ),
-      title: const Text(
-        'Budget Bytes',
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w800,
-          fontSize: 20,
-          letterSpacing: -0.3,
-        ),
+      title: Image.asset(
+        'assets/images/minibluelogo.png', // Make sure this path matches your folder structure
+        height: 40, // Adjust this height to fit your AppBar perfectly
+        fit: BoxFit.contain,
       ),
       actions: [
         IconButton(
@@ -391,11 +388,7 @@ class _HomeScreenState extends State<HomeScreen>
     final accent = _cuisineAccent(r.cuisineType);
     final emoji = _cuisineEmoji(r.cuisineType);
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(
-        context,
-        '/restaurant',
-        arguments: r.restaurantId,
-      ),
+      onTap: () => Navigator.pushNamed(context, '/restaurant', arguments: r.id),
       child: Container(
         width: 168,
         margin: const EdgeInsets.only(right: 12),
@@ -584,11 +577,7 @@ class _HomeScreenState extends State<HomeScreen>
     final accent = _cuisineAccent(r.cuisineType);
     final emoji = _cuisineEmoji(r.cuisineType);
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(
-        context,
-        '/restaurant',
-        arguments: r.restaurantId,
-      ),
+      onTap: () => Navigator.pushNamed(context, '/restaurant', arguments: r.id),
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(16),
