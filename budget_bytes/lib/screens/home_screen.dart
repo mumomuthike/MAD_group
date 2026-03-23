@@ -160,10 +160,10 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // app bar
+  // the app bar
   Widget _buildAppBar() {
     return SliverAppBar(
-      expandedHeight: 220,
+      expandedHeight: 240,
       pinned: true,
       backgroundColor: _blue,
       elevation: 0,
@@ -221,10 +221,13 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
       ),
-      title: Image.asset(
-        'assets/images/minibluelogo.png', // Make sure this path matches your folder structure
-        height: 40, // Adjust this height to fit your AppBar perfectly
-        fit: BoxFit.contain,
+      title: Padding(
+        padding: const EdgeInsets.only(left: 8),
+        child: Image.asset(
+          'assets/images/minibluelogo.png',
+          height: 85,
+          fit: BoxFit.contain,
+        ),
       ),
       actions: [
         IconButton(
@@ -255,7 +258,7 @@ class _HomeScreenState extends State<HomeScreen>
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: _dark,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(3),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -293,7 +296,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 decoration: BoxDecoration(
                   color: color.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(6),
                   border: Border.all(color: color.withOpacity(0.4)),
                 ),
                 child: Text(
@@ -310,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen>
           const SizedBox(height: 16),
           // progress bar
           ClipRRect(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(2),
             child: LinearProgressIndicator(
               value: pct,
               minHeight: 5,
@@ -328,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // ── section label ─────────────────────────────────────────────────────────
+  // a section label
   Widget _buildSectionLabel(String title, {String? tag}) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 28, 20, 16),
@@ -388,13 +391,13 @@ class _HomeScreenState extends State<HomeScreen>
     final accent = _cuisineAccent(r.cuisineType);
     final emoji = _cuisineEmoji(r.cuisineType);
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/restaurant', arguments: r.id),
+      onTap: () => Navigator.pushNamed(context, '/restaurant', arguments: r),
       child: Container(
         width: 168,
         margin: const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
           color: _dark,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(6),
         ),
         child: Stack(
           children: [
@@ -407,7 +410,7 @@ class _HomeScreenState extends State<HomeScreen>
                 decoration: BoxDecoration(
                   color: accent,
                   borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(16),
+                    top: Radius.circular(6),
                   ),
                 ),
                 child: Center(
@@ -477,7 +480,7 @@ class _HomeScreenState extends State<HomeScreen>
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: Colors.black54,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
                   r.cuisineType,
@@ -516,7 +519,7 @@ class _HomeScreenState extends State<HomeScreen>
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
               decoration: BoxDecoration(
                 color: selected ? _blue : _cardBg,
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(14),
                 border: Border.all(
                   color: selected ? _blue : Colors.transparent,
                   width: 1.5,
@@ -577,13 +580,13 @@ class _HomeScreenState extends State<HomeScreen>
     final accent = _cuisineAccent(r.cuisineType);
     final emoji = _cuisineEmoji(r.cuisineType);
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/restaurant', arguments: r.id),
+      onTap: () => Navigator.pushNamed(context, '/restaurant', arguments: r),
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(7),
           border: Border.all(color: const Color(0xFFEEEEEE), width: 1.5),
         ),
         child: Row(
@@ -594,7 +597,7 @@ class _HomeScreenState extends State<HomeScreen>
               height: 60,
               decoration: BoxDecoration(
                 color: accent.withOpacity(0.12),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(6),
               ),
               child: Center(
                 child: Text(emoji, style: const TextStyle(fontSize: 28)),
