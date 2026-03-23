@@ -46,7 +46,7 @@ class AppTheme {
       ),
 
       // Card
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.white,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -177,17 +177,16 @@ class AppTheme {
       ),
 
       // Dialog
-      dialogTheme: DialogTheme(
+      dialogTheme: DialogThemeData(
         backgroundColor: AppColors.white,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.dialog),
         ),
-        titleTextStyle: AppTypography.dialogTitle, // Fredoka
-        contentTextStyle: AppTypography.body, // Nunito
+        titleTextStyle: AppTypography.dialogTitle,
+        contentTextStyle: AppTypography.body,
       ),
-
       // Snack
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.dark,
@@ -267,7 +266,7 @@ class AppTheme {
       ),
 
       // Tab
-      tabBarTheme: TabBarTheme(
+      tabBarTheme: TabBarThemeData(
         labelColor: AppColors.primary,
         unselectedLabelColor: AppColors.textTertiary,
         indicatorColor: AppColors.primary,
