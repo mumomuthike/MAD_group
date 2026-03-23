@@ -39,7 +39,7 @@ class DatabaseHelper {
     return openDatabase(
       path,
       version: 1,
-      onCreate: _onCreate,     // runs on first install
+      onCreate: _onCreate, // runs on first install
       onOpen: (db) async {
         // Enforce foreign keys every time the DB opens
         await db.execute('PRAGMA foreign_keys = ON');
@@ -245,42 +245,210 @@ class DatabaseHelper {
     // Menu items — restaurant IDs 1–9 (foreign keys)
     final menuItems = [
       // The Campus Grill (1)
-      {'restaurant_id': 1, 'name': 'Classic Burger', 'price': 8.99, 'category': 'Lunch', 'dietary_info': 'None'},
-      {'restaurant_id': 1, 'name': 'Grilled Chicken Wrap', 'price': 7.49, 'category': 'Lunch', 'dietary_info': 'None'},
-      {'restaurant_id': 1, 'name': 'Breakfast Burrito', 'price': 5.99, 'category': 'Breakfast', 'dietary_info': 'None'},
+      {
+        'restaurant_id': 1,
+        'name': 'Classic Burger',
+        'price': 8.99,
+        'category': 'Lunch',
+        'dietary_info': 'None',
+      },
+      {
+        'restaurant_id': 1,
+        'name': 'Grilled Chicken Wrap',
+        'price': 7.49,
+        'category': 'Lunch',
+        'dietary_info': 'None',
+      },
+      {
+        'restaurant_id': 1,
+        'name': 'Breakfast Burrito',
+        'price': 5.99,
+        'category': 'Breakfast',
+        'dietary_info': 'None',
+      },
       // Taco Loco (2)
-      {'restaurant_id': 2, 'name': 'Street Tacos (3)', 'price': 6.50, 'category': 'Lunch', 'dietary_info': 'None'},
-      {'restaurant_id': 2, 'name': 'Veggie Burrito', 'price': 5.75, 'category': 'Lunch', 'dietary_info': 'Vegetarian'},
-      {'restaurant_id': 2, 'name': 'Chips & Guac', 'price': 3.00, 'category': 'Snack', 'dietary_info': 'Vegan'},
+      {
+        'restaurant_id': 2,
+        'name': 'Street Tacos (3)',
+        'price': 6.50,
+        'category': 'Lunch',
+        'dietary_info': 'None',
+      },
+      {
+        'restaurant_id': 2,
+        'name': 'Veggie Burrito',
+        'price': 5.75,
+        'category': 'Lunch',
+        'dietary_info': 'Vegetarian',
+      },
+      {
+        'restaurant_id': 2,
+        'name': 'Chips & Guac',
+        'price': 3.00,
+        'category': 'Snack',
+        'dietary_info': 'Vegan',
+      },
       // Panda Bowl (3)
-      {'restaurant_id': 3, 'name': 'Orange Chicken Bowl', 'price': 7.25, 'category': 'Lunch', 'dietary_info': 'None'},
-      {'restaurant_id': 3, 'name': 'Fried Rice', 'price': 4.50, 'category': 'Lunch', 'dietary_info': 'Vegetarian'},
-      {'restaurant_id': 3, 'name': 'Spring Rolls', 'price': 3.50, 'category': 'Snack', 'dietary_info': 'Vegetarian'},
+      {
+        'restaurant_id': 3,
+        'name': 'Orange Chicken Bowl',
+        'price': 7.25,
+        'category': 'Lunch',
+        'dietary_info': 'None',
+      },
+      {
+        'restaurant_id': 3,
+        'name': 'Fried Rice',
+        'price': 4.50,
+        'category': 'Lunch',
+        'dietary_info': 'Vegetarian',
+      },
+      {
+        'restaurant_id': 3,
+        'name': 'Spring Rolls',
+        'price': 3.50,
+        'category': 'Snack',
+        'dietary_info': 'Vegetarian',
+      },
       // Slice & Dice (4)
-      {'restaurant_id': 4, 'name': 'Cheese Slice', 'price': 2.99, 'category': 'Lunch', 'dietary_info': 'Vegetarian'},
-      {'restaurant_id': 4, 'name': 'Pepperoni Slice', 'price': 3.49, 'category': 'Lunch', 'dietary_info': 'None'},
-      {'restaurant_id': 4, 'name': 'Whole Margherita Pizza', 'price': 12.99, 'category': 'Dinner', 'dietary_info': 'Vegetarian'},
+      {
+        'restaurant_id': 4,
+        'name': 'Cheese Slice',
+        'price': 2.99,
+        'category': 'Lunch',
+        'dietary_info': 'Vegetarian',
+      },
+      {
+        'restaurant_id': 4,
+        'name': 'Pepperoni Slice',
+        'price': 3.49,
+        'category': 'Lunch',
+        'dietary_info': 'None',
+      },
+      {
+        'restaurant_id': 4,
+        'name': 'Whole Margherita Pizza',
+        'price': 12.99,
+        'category': 'Dinner',
+        'dietary_info': 'Vegetarian',
+      },
       // Green Garden Cafe
-      {'restaurant_id': 5, 'name': 'Acai Bowl', 'price': 8.50, 'category': 'Breakfast', 'dietary_info': 'Vegan'},
-      {'restaurant_id': 5, 'name': 'Kale Caesar Salad', 'price': 9.00, 'category': 'Lunch', 'dietary_info': 'Vegetarian'},
-      {'restaurant_id': 5, 'name': 'Green Smoothie', 'price': 5.50, 'category': 'Drinks', 'dietary_info': 'Vegan'},
+      {
+        'restaurant_id': 5,
+        'name': 'Acai Bowl',
+        'price': 8.50,
+        'category': 'Breakfast',
+        'dietary_info': 'Vegan',
+      },
+      {
+        'restaurant_id': 5,
+        'name': 'Kale Caesar Salad',
+        'price': 9.00,
+        'category': 'Lunch',
+        'dietary_info': 'Vegetarian',
+      },
+      {
+        'restaurant_id': 5,
+        'name': 'Green Smoothie',
+        'price': 5.50,
+        'category': 'Drinks',
+        'dietary_info': 'Vegan',
+      },
       // Burger Barn (6)
-      {'restaurant_id': 6, 'name': 'Value Burger', 'price': 4.99, 'category': 'Lunch', 'dietary_info': 'None'},
-      {'restaurant_id': 6, 'name': 'Combo Meal', 'price': 7.99, 'category': 'Lunch', 'dietary_info': 'None'},
-      {'restaurant_id': 6, 'name': 'Chicken Nuggets (6)', 'price': 4.49, 'category': 'Snack', 'dietary_info': 'None'},
+      {
+        'restaurant_id': 6,
+        'name': 'Value Burger',
+        'price': 4.99,
+        'category': 'Lunch',
+        'dietary_info': 'None',
+      },
+      {
+        'restaurant_id': 6,
+        'name': 'Combo Meal',
+        'price': 7.99,
+        'category': 'Lunch',
+        'dietary_info': 'None',
+      },
+      {
+        'restaurant_id': 6,
+        'name': 'Chicken Nuggets (6)',
+        'price': 4.49,
+        'category': 'Snack',
+        'dietary_info': 'None',
+      },
       // Pasta Palace (7)
-      {'restaurant_id': 7, 'name': 'Spaghetti Bolognese', 'price': 15.99, 'category': 'Dinner', 'dietary_info': 'None'},
-      {'restaurant_id': 7, 'name': 'Fettuccine Alfredo', 'price': 14.99, 'category': 'Dinner', 'dietary_info': 'Vegetarian'},
-      {'restaurant_id': 7, 'name': 'Garlic Bread', 'price': 5.00, 'category': 'Snack', 'dietary_info': 'Vegetarian'},
+      {
+        'restaurant_id': 7,
+        'name': 'Spaghetti Bolognese',
+        'price': 15.99,
+        'category': 'Dinner',
+        'dietary_info': 'None',
+      },
+      {
+        'restaurant_id': 7,
+        'name': 'Fettuccine Alfredo',
+        'price': 14.99,
+        'category': 'Dinner',
+        'dietary_info': 'Vegetarian',
+      },
+      {
+        'restaurant_id': 7,
+        'name': 'Garlic Bread',
+        'price': 5.00,
+        'category': 'Snack',
+        'dietary_info': 'Vegetarian',
+      },
       // Morning Rush Diner (8)
-      {'restaurant_id': 8, 'name': 'Pancake Stack', 'price': 5.49, 'category': 'Breakfast', 'dietary_info': 'Vegetarian'},
-      {'restaurant_id': 8, 'name': 'Eggs & Toast', 'price': 4.99, 'category': 'Breakfast', 'dietary_info': 'Vegetarian'},
-      {'restaurant_id': 8, 'name': 'Bacon Egg & Cheese', 'price': 5.99, 'category': 'Breakfast', 'dietary_info': 'None'},
-      {'restaurant_id': 8, 'name': 'Fresh OJ', 'price': 2.99, 'category': 'Drinks', 'dietary_info': 'Vegan'},
+      {
+        'restaurant_id': 8,
+        'name': 'Pancake Stack',
+        'price': 5.49,
+        'category': 'Breakfast',
+        'dietary_info': 'Vegetarian',
+      },
+      {
+        'restaurant_id': 8,
+        'name': 'Eggs & Toast',
+        'price': 4.99,
+        'category': 'Breakfast',
+        'dietary_info': 'Vegetarian',
+      },
+      {
+        'restaurant_id': 8,
+        'name': 'Bacon Egg & Cheese',
+        'price': 5.99,
+        'category': 'Breakfast',
+        'dietary_info': 'None',
+      },
+      {
+        'restaurant_id': 8,
+        'name': 'Fresh OJ',
+        'price': 2.99,
+        'category': 'Drinks',
+        'dietary_info': 'Vegan',
+      },
       // The Ivory Fork (9)
-      {'restaurant_id': 9, 'name': 'Wagyu Smash Burger', 'price': 18.99, 'category': 'Lunch', 'dietary_info': 'None'},
-      {'restaurant_id': 9, 'name': 'Truffle Mac & Cheese', 'price': 16.99, 'category': 'Dinner', 'dietary_info': 'Vegetarian'},
-      {'restaurant_id': 9, 'name': 'Lobster Bisque', 'price': 12.99, 'category': 'Lunch', 'dietary_info': 'None'},
+      {
+        'restaurant_id': 9,
+        'name': 'Wagyu Smash Burger',
+        'price': 18.99,
+        'category': 'Lunch',
+        'dietary_info': 'None',
+      },
+      {
+        'restaurant_id': 9,
+        'name': 'Truffle Mac & Cheese',
+        'price': 16.99,
+        'category': 'Dinner',
+        'dietary_info': 'Vegetarian',
+      },
+      {
+        'restaurant_id': 9,
+        'name': 'Lobster Bisque',
+        'price': 12.99,
+        'category': 'Lunch',
+        'dietary_info': 'None',
+      },
     ];
 
     for (final item in menuItems) {
@@ -294,22 +462,33 @@ class DatabaseHelper {
 
   Future<int> insertUser(User user) async {
     final db = await database;
-    return db.insert('users', user.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    return db.insert(
+      'users',
+      user.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   Future<User?> getUser(int userId) async {
     final db = await database;
-    final rows = await db.query('users',
-        where: 'user_id = ?', whereArgs: [userId], limit: 1);
+    final rows = await db.query(
+      'users',
+      where: 'user_id = ?',
+      whereArgs: [userId],
+      limit: 1,
+    );
     if (rows.isEmpty) return null;
     return User.fromMap(rows.first);
   }
 
   Future<int> updateUser(User user) async {
     final db = await database;
-    return db.update('users', user.toMap(),
-        where: 'user_id = ?', whereArgs: [user.id]);
+    return db.update(
+      'users',
+      user.toMap(),
+      where: 'user_id = ?',
+      whereArgs: [user.id],
+    );
   }
 
   //---------------------------
@@ -317,17 +496,19 @@ class DatabaseHelper {
   //---------------------------
   Future<List<Restaurant>> getAllRestaurants() async {
     final db = await database;
-    final rows = await db.query('restaurants',
-        orderBy: 'distance_from_campus ASC');
+    final rows = await db.query(
+      'restaurants',
+      orderBy: 'distance_from_campus ASC',
+    );
     return rows.map(Restaurant.fromMap).toList();
   }
 
   // Filter restaurants by cuisine, max price, and max distance
   Future<List<Restaurant>> filterRestaurants({
-    String? cuisine,        // null = all cuisines
-    int? maxPrice,          // 1, 2, or 3 — null = any
-    double? maxDistance,    // miles — null = any
-    String? searchQuery,    // partial name match — null = no filter
+    String? cuisine, // null = all cuisines
+    int? maxPrice, // 1, 2, or 3 — null = any
+    double? maxDistance, // miles — null = any
+    String? searchQuery, // partial name match — null = no filter
   }) async {
     final db = await database;
 
@@ -364,8 +545,12 @@ class DatabaseHelper {
 
   Future<Restaurant?> getRestaurant(int restaurantId) async {
     final db = await database;
-    final rows = await db.query('restaurants',
-        where: 'restaurant_id = ?', whereArgs: [restaurantId], limit: 1);
+    final rows = await db.query(
+      'restaurants',
+      where: 'restaurant_id = ?',
+      whereArgs: [restaurantId],
+      limit: 1,
+    );
     if (rows.isEmpty) return null;
     return Restaurant.fromMap(rows.first);
   }
@@ -389,8 +574,11 @@ class DatabaseHelper {
   //-------------------------------
   Future<int> insertBudgetEntry(BudgetEntry entry) async {
     final db = await database;
-    return db.insert('budget_tracker', entry.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    return db.insert(
+      'budget_tracker',
+      entry.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   // All entries for a user in the current week (Mon–Sun)
@@ -415,14 +603,20 @@ class DatabaseHelper {
 
   // Sum of spending this week for a user
   Future<double> getWeeklySpending(int userId) async {
-    final entries = await getWeeklyEntries(userId);
-    return entries.fold(0.0, (sum, e) => sum + e.cost);
+    final entries = await getWeeklyEntries(userId) ?? [];
+    return entries.fold<double>(
+      0.0,
+      (sum, e) => sum + (e.cost?.toDouble() ?? 0.0),
+    );
   }
 
   Future<int> deleteBudgetEntry(int entryId) async {
     final db = await database;
-    return db.delete('budget_tracker',
-        where: 'entry_id = ?', whereArgs: [entryId]);
+    return db.delete(
+      'budget_tracker',
+      where: 'entry_id = ?',
+      whereArgs: [entryId],
+    );
   }
 
   //----------------------------
@@ -430,16 +624,21 @@ class DatabaseHelper {
   //----------------------------
   Future<int> insertSavedMeal(SavedMeal meal) async {
     final db = await database;
-    return db.insert('saved_meals', meal.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    return db.insert(
+      'saved_meals',
+      meal.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   Future<List<SavedMeal>> getSavedMeals(int userId) async {
     final db = await database;
-    final rows = await db.query('saved_meals',
-        where: 'user_id = ?',
-        whereArgs: [userId],
-        orderBy: 'save_date DESC');
+    final rows = await db.query(
+      'saved_meals',
+      where: 'user_id = ?',
+      whereArgs: [userId],
+      orderBy: 'save_date DESC',
+    );
     return rows.map(SavedMeal.fromMap).toList();
   }
 
@@ -457,8 +656,7 @@ class DatabaseHelper {
 
   Future<int> deleteSavedMeal(int saveId) async {
     final db = await database;
-    return db.delete('saved_meals',
-        where: 'save_id = ?', whereArgs: [saveId]);
+    return db.delete('saved_meals', where: 'save_id = ?', whereArgs: [saveId]);
   }
 
   // Remove all saved meals for a restaurant (un-favorite)
@@ -476,23 +674,31 @@ class DatabaseHelper {
   //----------------------------
   Future<int> insertClassSchedule(ClassSchedule schedule) async {
     final db = await database;
-    return db.insert('class_schedule', schedule.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    return db.insert(
+      'class_schedule',
+      schedule.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   Future<List<ClassSchedule>> getClassSchedule(int userId) async {
     final db = await database;
-    final rows = await db.query('class_schedule',
-        where: 'user_id = ?',
-        whereArgs: [userId],
-        orderBy: 'start_time ASC');
+    final rows = await db.query(
+      'class_schedule',
+      where: 'user_id = ?',
+      whereArgs: [userId],
+      orderBy: 'start_time ASC',
+    );
     return rows.map(ClassSchedule.fromMap).toList();
   }
 
   Future<int> deleteClassSchedule(int classId) async {
     final db = await database;
-    return db.delete('class_schedule',
-        where: 'class_id = ?', whereArgs: [classId]);
+    return db.delete(
+      'class_schedule',
+      where: 'class_id = ?',
+      whereArgs: [classId],
+    );
   }
 
   //------------------------------------
@@ -502,8 +708,11 @@ class DatabaseHelper {
     final db = await database;
     final batch = db.batch();
     for (final s in suggestions) {
-      batch.insert('ai_meal_suggestions', s.toMap(),
-          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert(
+        'ai_meal_suggestions',
+        s.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
     }
     await batch.commit(noResult: true);
   }
@@ -528,14 +737,14 @@ class DatabaseHelper {
   Future<void> clearUserData(int userId) async {
     final db = await database;
     final batch = db.batch();
-    batch.delete('budget_tracker',
-        where: 'user_id = ?', whereArgs: [userId]);
-    batch.delete('saved_meals',
-        where: 'user_id = ?', whereArgs: [userId]);
-    batch.delete('class_schedule',
-        where: 'user_id = ?', whereArgs: [userId]);
-    batch.delete('ai_meal_suggestions',
-        where: 'user_id = ?', whereArgs: [userId]);
+    batch.delete('budget_tracker', where: 'user_id = ?', whereArgs: [userId]);
+    batch.delete('saved_meals', where: 'user_id = ?', whereArgs: [userId]);
+    batch.delete('class_schedule', where: 'user_id = ?', whereArgs: [userId]);
+    batch.delete(
+      'ai_meal_suggestions',
+      where: 'user_id = ?',
+      whereArgs: [userId],
+    );
     await batch.commit(noResult: true);
   }
 
