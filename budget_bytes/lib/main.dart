@@ -18,13 +18,27 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final ValueNotifier<bool> themeNotifier = ValueNotifier(false);
+
+  @override
+  void dispose() {
+    themeNotifier.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final double weeklyBudget = 60.0; // Matches your sampleUser budget
+    final double weeklyBudget = 60.0;
     final List<BudgetEntry> entries = [];
+
     final sampleRestaurants = <Restaurant>[
       Restaurant(
         id: 1,
@@ -84,39 +98,45 @@ class MyApp extends StatelessWidget {
       dietaryPreferences: 'Vegetarian',
     );
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: AppStrings.appName,
-      theme: AppTheme.light,
-      initialRoute: AppRoutes.splash,
-      routes: {
-        AppRoutes.splash: (_) => const SplashScreen(),
-        AppRoutes.home: (_) => const HomeScreen(userId: 1),
-        AppRoutes.ai: (_) => AiMealFinderScreen(restaurants: sampleRestaurants),
-        AppRoutes.saved: (_) => FavoritesScreen(
-          savedMeals: sampleSaved,
-          restaurantsById: {for (final r in sampleRestaurants) r.id!: r},
-        ),
-        AppRoutes.profile: (_) => SettingsScreen(user: sampleUser),
-        AppRoutes.budget: (_) =>
-            BudgetScreen(weeklyBudget: weeklyBudget, entries: entries),
-      },
-      onGenerateRoute: (settings) {
-        if (settings.name == AppRoutes.restaurant) {
-          final restaurant = settings.arguments as Restaurant;
-          final menuItems = sampleMenu
-              .where((item) => item.restaurantId == restaurant.id)
-              .toList();
-
-          return MaterialPageRoute(
-            builder: (_) => RestaurantDetailsScreen(
-              restaurant: restaurant,
-              menuItems: menuItems,
+    return ValueListenableBuilder<bool>(
+      valueListenable: themeNotifier,
+      builder: (context, isDarkMode, _) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: AppStrings.appName,
+          theme: AppTheme.light,
+          initialRoute: AppRoutes.splash,
+          routes: {
+            AppRoutes.splash: (_) => SplashScreen(themeNotifier: themeNotifier),
+            AppRoutes.home: (_) => const HomeScreen(userId: 1),
+            AppRoutes.ai: (_) =>
+                AiMealFinderScreen(restaurants: sampleRestaurants),
+            AppRoutes.saved: (_) => FavoritesScreen(
+              savedMeals: sampleSaved,
+              restaurantsById: {for (final r in sampleRestaurants) r.id!: r},
             ),
-          );
-        }
+            AppRoutes.profile: (_) => SettingsScreen(user: sampleUser),
+            AppRoutes.budget: (_) =>
+                BudgetScreen(weeklyBudget: weeklyBudget, entries: entries),
+          },
+          onGenerateRoute: (settings) {
+            if (settings.name == AppRoutes.restaurant) {
+              final restaurant = settings.arguments as Restaurant;
+              final menuItems = sampleMenu
+                  .where((item) => item.restaurantId == restaurant.id)
+                  .toList();
 
-        return null;
+              return MaterialPageRoute(
+                builder: (_) => RestaurantDetailsScreen(
+                  restaurant: restaurant,
+                  menuItems: menuItems,
+                ),
+              );
+            }
+
+            return null;
+          },
+        );
       },
     );
   }
