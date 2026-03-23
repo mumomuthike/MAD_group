@@ -119,7 +119,10 @@ class _MyAppState extends State<MyApp> {
               savedMeals: sampleSaved,
               restaurantsById: {for (final r in sampleRestaurants) r.id!: r},
             ),
-            AppRoutes.profile: (_) => SettingsScreen(user: sampleUser),
+            AppRoutes.profile: (_) => SettingsScreen(
+              user: sampleUser,
+              themeNotifier: themeNotifier, // dark mode
+            ),
             AppRoutes.budget: (_) =>
                 BudgetScreen(weeklyBudget: weeklyBudget, entries: entries),
           },
@@ -129,7 +132,6 @@ class _MyAppState extends State<MyApp> {
 
               return MaterialPageRoute(
                 builder: (_) => FutureBuilder<List<MenuItem>>(
-                  // Ensuring that Database Helper is imported and initialized
                   future: DatabaseHelper.instance.getMenuItems(restaurant.id!),
                   builder: (context, snap) {
                     if (snap.connectionState == ConnectionState.waiting) {
