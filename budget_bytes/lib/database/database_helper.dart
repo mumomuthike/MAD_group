@@ -7,6 +7,7 @@
 //   final db = DatabaseHelper.instance;
 //   final restaurants = await db.getAllRestaurants();
 
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -50,6 +51,7 @@ class DatabaseHelper {
   // db schema
   // Called once when the database file does not yet exist on the device
   Future<void> _onCreate(Database db, int version) async {
+    debugPrint('📦 Creating database tables...');
     // 1. users table
     await db.execute('''
       CREATE TABLE users (
@@ -148,7 +150,14 @@ class DatabaseHelper {
     ''');
 
     // Seed data so the app has content on first launch
-    await _seedData(db);
+    try {
+      await _seedData(db);
+      debugPrint('✅ DB seeded successfully');
+    } catch (e, stack) {
+      debugPrint('❌ Seed error: $e');
+      debugPrint('$stack');
+      rethrow;
+    }
   }
 
   // Seed data with restaurants and menu items
@@ -431,7 +440,7 @@ class DatabaseHelper {
   // Sum of spending this week for a user
   Future<double> getWeeklySpending(int userId) async {
     final entries = await getWeeklyEntries(userId);
-    return entries.fold(0.0, (sum, e) => sum + e.cost);
+    return entries.fold<double>(0.0, (sum, e) => sum + e.cost);
   }
 
   Future<int> deleteBudgetEntry(int entryId) async {
@@ -554,7 +563,7 @@ class DatabaseHelper {
     await batch.commit(noResult: true);
   }
 
-  // Close the database connection (good practice on app exit)
+  // Close the database connection
   Future<void> close() async {
     final db = await database;
     await db.close();
