@@ -4,12 +4,7 @@ import '../models/restaurant.dart';
 import 'restaurant_details_screen.dart';
 import 'ai_meal_finder_screen.dart';
 import '../widgets/restaurant_card.dart';
-
-// lib/screens/home_screen.dart
-//
-// Home screen for Budget Bytes
-// Inspired by Infatuation's editorial, magazine-style layout
-// Color scheme: #057EE6 (primary), #BC1823 (accent), #EEBA2B (gold), white, black
+import 'package:flutter/services.dart';
 
 class HomeScreen extends StatefulWidget {
   final int userId;
@@ -21,19 +16,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  // ── data ──────────────────────────────────────────────────────────────────
   List<Restaurant> _nearbyRestaurants = [];
   List<Restaurant> _allRestaurants = [];
   double _weeklySpending = 0;
   double _weeklyBudget = 50.0;
   bool _loading = true;
 
-  // ── animation ─────────────────────────────────────────────────────────────
   late final AnimationController _heroCtrl;
   late final Animation<double> _heroFade;
   late final Animation<Offset> _heroSlide;
 
-  // ── filter state ──────────────────────────────────────────────────────────
   String _selectedCuisine = 'All';
   final List<String> _cuisines = [
     'All',
@@ -47,10 +39,8 @@ class _HomeScreenState extends State<HomeScreen>
     'Breakfast',
   ];
 
-  // ── bottom nav ────────────────────────────────────────────────────────────
   int _navIndex = 0;
 
-  // ── theme constants ───────────────────────────────────────────────────────
   static const _blue = Color(0xFF057EE6);
   static const _red = Color(0xFFBC1823);
   static const _gold = Color(0xFFEEBA2B);
@@ -62,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
 
-    // Hero animation
     _heroCtrl = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 900),
@@ -105,7 +94,6 @@ class _HomeScreenState extends State<HomeScreen>
     return db.filterRestaurants(cuisine: _selectedCuisine);
   }
 
-  // ── helpers ───────────────────────────────────────────────────────────────
   String _priceSymbol(int range) => '\$' * range;
 
   Color _budgetColor() {
@@ -115,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen>
     return _blue;
   }
 
-  /// Cuisine → colour accent pair (editorial feel)
+  /// Cuisine colors
   Color _cuisineAccent(String cuisine) {
     const map = {
       'American': Color(0xFFBC1823),
@@ -130,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen>
     return map[cuisine] ?? _blue;
   }
 
-  /// Simple emoji illustration per cuisine for placeholder art
+  /// Emojis
   String _cuisineEmoji(String cuisine) {
     const map = {
       'American': '🍔',
@@ -145,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen>
     return map[cuisine] ?? '🍽️';
   }
 
-  // ── build ─────────────────────────────────────────────────────────────────
+  //
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
@@ -172,10 +160,10 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // ── app bar ───────────────────────────────────────────────────────────────
+  // the app bar
   Widget _buildAppBar() {
     return SliverAppBar(
-      expandedHeight: 220,
+      expandedHeight: 240,
       pinned: true,
       backgroundColor: _blue,
       elevation: 0,
@@ -233,13 +221,12 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
       ),
-      title: const Text(
-        'Budget Bytes',
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w800,
-          fontSize: 20,
-          letterSpacing: -0.3,
+      title: Padding(
+        padding: const EdgeInsets.only(left: 8),
+        child: Image.asset(
+          'assets/images/minibluelogo.png',
+          height: 85,
+          fit: BoxFit.contain,
         ),
       ),
       actions: [
@@ -260,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // ── budget banner ─────────────────────────────────────────────────────────
+  //
   Widget _buildBudgetBanner() {
     final remaining = (_weeklyBudget - _weeklySpending).clamp(0, _weeklyBudget);
     final pct = (_weeklySpending / _weeklyBudget).clamp(0.0, 1.0);
@@ -271,7 +258,7 @@ class _HomeScreenState extends State<HomeScreen>
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: _dark,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(3),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -309,7 +296,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 decoration: BoxDecoration(
                   color: color.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(6),
                   border: Border.all(color: color.withOpacity(0.4)),
                 ),
                 child: Text(
@@ -326,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen>
           const SizedBox(height: 16),
           // progress bar
           ClipRRect(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(2),
             child: LinearProgressIndicator(
               value: pct,
               minHeight: 5,
@@ -344,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // ── section label ─────────────────────────────────────────────────────────
+  // a section label
   Widget _buildSectionLabel(String title, {String? tag}) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 28, 20, 16),
@@ -378,7 +365,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // ── nearby cards (horizontal scroll) ─────────────────────────────────────
+  // cards
   Widget _buildNearbyCards() {
     if (_nearbyRestaurants.isEmpty) {
       return const Padding(
@@ -404,21 +391,16 @@ class _HomeScreenState extends State<HomeScreen>
     final accent = _cuisineAccent(r.cuisineType);
     final emoji = _cuisineEmoji(r.cuisineType);
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(
-        context,
-        '/restaurant',
-        arguments: r.restaurantId,
-      ),
+      onTap: () => Navigator.pushNamed(context, '/restaurant', arguments: r),
       child: Container(
         width: 168,
         margin: const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
           color: _dark,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(6),
         ),
         child: Stack(
           children: [
-            // coloured accent strip at top
             Positioned(
               top: 0,
               left: 0,
@@ -428,7 +410,7 @@ class _HomeScreenState extends State<HomeScreen>
                 decoration: BoxDecoration(
                   color: accent,
                   borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(16),
+                    top: Radius.circular(6),
                   ),
                 ),
                 child: Center(
@@ -436,7 +418,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
               ),
             ),
-            // content
+            // the content
             Positioned(
               bottom: 0,
               left: 0,
@@ -490,7 +472,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
               ),
             ),
-            // distance badge
+
             Positioned(
               top: 10,
               right: 10,
@@ -498,7 +480,7 @@ class _HomeScreenState extends State<HomeScreen>
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: Colors.black54,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
                   r.cuisineType,
@@ -516,7 +498,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // ── cuisine chips ─────────────────────────────────────────────────────────
+  //
   Widget _buildCuisineChips() {
     return SizedBox(
       height: 42,
@@ -537,7 +519,7 @@ class _HomeScreenState extends State<HomeScreen>
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
               decoration: BoxDecoration(
                 color: selected ? _blue : _cardBg,
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(14),
                 border: Border.all(
                   color: selected ? _blue : Colors.transparent,
                   width: 1.5,
@@ -558,7 +540,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // ── filtered restaurant list ──────────────────────────────────────────────
+  // filtered list
   Widget _buildFilteredList() {
     return FutureBuilder<List<Restaurant>>(
       future: _getFilteredRestaurants(),
@@ -598,17 +580,13 @@ class _HomeScreenState extends State<HomeScreen>
     final accent = _cuisineAccent(r.cuisineType);
     final emoji = _cuisineEmoji(r.cuisineType);
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(
-        context,
-        '/restaurant',
-        arguments: r.restaurantId,
-      ),
+      onTap: () => Navigator.pushNamed(context, '/restaurant', arguments: r),
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(7),
           border: Border.all(color: const Color(0xFFEEEEEE), width: 1.5),
         ),
         child: Row(
@@ -619,7 +597,7 @@ class _HomeScreenState extends State<HomeScreen>
               height: 60,
               decoration: BoxDecoration(
                 color: accent.withOpacity(0.12),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(6),
               ),
               child: Center(
                 child: Text(emoji, style: const TextStyle(fontSize: 28)),
@@ -690,7 +668,6 @@ class _HomeScreenState extends State<HomeScreen>
                 ],
               ),
             ),
-            // chevron
             const Icon(Icons.chevron_right_rounded, color: _grey, size: 22),
           ],
         ),
@@ -698,7 +675,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // ── bottom nav ────────────────────────────────────────────────────────────
+  // bottom navigation
   Widget _buildBottomNav() {
     return Container(
       decoration: const BoxDecoration(
@@ -756,7 +733,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // ── loader ────────────────────────────────────────────────────────────────
+  //loader
   Widget _buildLoader() {
     return const Center(
       child: CircularProgressIndicator(color: _blue, strokeWidth: 2.5),
