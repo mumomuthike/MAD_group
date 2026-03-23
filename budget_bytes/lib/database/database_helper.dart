@@ -236,6 +236,15 @@ class DatabaseHelper {
         'open_hours': '11:00 AM – 10:00 PM',
         'distance_from_campus': 0.9,
       },
+      // id 10 — Coffee Shop $
+      {
+        'name': 'The Daily Grind',
+        'cuisine_type': 'Coffee Shop',
+        'address': '5 Campus Corner',
+        'price_range': 1,
+        'open_hours': '7:00 AM – 8:00 PM',
+        'distance_from_campus': 0.1,
+      },
     ];
 
     for (final r in restaurants) {
@@ -281,6 +290,12 @@ class DatabaseHelper {
       {'restaurant_id': 9, 'name': 'Wagyu Smash Burger', 'price': 18.99, 'category': 'Lunch', 'dietary_info': 'None'},
       {'restaurant_id': 9, 'name': 'Truffle Mac & Cheese', 'price': 16.99, 'category': 'Dinner', 'dietary_info': 'Vegetarian'},
       {'restaurant_id': 9, 'name': 'Lobster Bisque', 'price': 12.99, 'category': 'Lunch', 'dietary_info': 'None'},
+      // The Daily Grind (10)
+      {'restaurant_id': 10, 'name': 'Drip Coffee', 'price': 2.49, 'category': 'Drinks', 'dietary_info': 'Vegan'},
+      {'restaurant_id': 10, 'name': 'Latte', 'price': 4.49, 'category': 'Drinks', 'dietary_info': 'Vegetarian'},
+      {'restaurant_id': 10, 'name': 'Iced Matcha', 'price': 4.99, 'category': 'Drinks', 'dietary_info': 'Vegan'},
+      {'restaurant_id': 10, 'name': 'Butter Croissant', 'price': 3.49, 'category': 'Snack', 'dietary_info': 'Vegetarian'},
+      {'restaurant_id': 10, 'name': 'Avocado Toast', 'price': 6.99, 'category': 'Breakfast', 'dietary_info': 'Vegan'},
     ];
 
     for (final item in menuItems) {
