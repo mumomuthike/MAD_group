@@ -1,16 +1,7 @@
-// lib/screens/splash_screen.dart
-//
-// Screen 1 — Splash / Onboarding
-//
-// Purpose:
-//   Shows the app logo and tagline while the SQLite database initializes.
-//   Once the DB is ready, automatically navigates to HomeScreen.
-//   If the user has never set up a profile, navigates to onboarding instead.
-
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
-  // Passed down from main.dart so Settings screen can toggle theme app-wide
   final ValueNotifier<bool> themeNotifier;
 
   const SplashScreen({super.key, required this.themeNotifier});
@@ -19,34 +10,57 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  // Animation
-  // Logo fades in and slides up on launch
-  late final AnimationController _controller;
-  late final Animation<double> _fadeAnimation;
-  late final Animation<Offset> _slideAnimation;
-
-  String? _errorMessage; // non-null if DB init fails
+class _SplashScreenState extends State<SplashScreen> {
+  String? _errorMessage;
 
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, '/home');
-    });
+    _initializeApp();
   }
 
-  // ─── Build ───────────────────────────────────────────────────────────────────
+  Future<void> _initializeApp() async {
+    try {
+      await Future.delayed(const Duration(seconds: 2));
+
+      if (!mounted) return;
+
+      Navigator.pushReplacementNamed(context, '/home');
+    } catch (e) {
+      if (!mounted) return;
+
+      setState(() {
+        _errorMessage = 'Something went wrong while starting the app.';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_errorMessage != null) {
+      return Scaffold(
+        backgroundColor: const Color(0xFF0D47A1),
+        body: Center(child: _buildErrorState()),
+      );
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xFF0D47A1),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/logo.png', height: 120),
+            Image.asset(
+              'assets/mainlogo.png',
+              height: 120,
+              errorBuilder: (context, error, stackTrace) {
+                return const Icon(
+                  Icons.account_balance_wallet,
+                  size: 120,
+                  color: Colors.white,
+                );
+              },
+            ),
             const SizedBox(height: 20),
             const Text(
               'Budget Bytes',
@@ -62,13 +76,14 @@ class _SplashScreenState extends State<SplashScreen>
               'Eat well. Spend smart.',
               style: TextStyle(color: Color(0xFFFFD54F), fontSize: 16),
             ),
+            const SizedBox(height: 28),
+            const CircularProgressIndicator(color: Colors.white),
           ],
         ),
       ),
     );
   }
 
-  // Error state — shown if DB fails to initialize
   Widget _buildErrorState() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -83,15 +98,16 @@ class _SplashScreenState extends State<SplashScreen>
             style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
           const SizedBox(height: 24),
-          // Retry button re-runs initialization
           ElevatedButton(
             onPressed: () {
-              setState(() => _errorMessage = null);
+              setState(() {
+                _errorMessage = null;
+              });
               _initializeApp();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
-              foregroundColor: AppTheme.primaryGreen,
+              foregroundColor: const Color(0xFF0D47A1),
             ),
             child: const Text('Retry'),
           ),
