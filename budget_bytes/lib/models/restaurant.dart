@@ -4,8 +4,8 @@ class Restaurant {
   final String name;
   final String cuisineType;
   final String address;
-  final int priceRange;       // 1 = $, 2 = $$, 3 = $$$
-  final String openHours;     // e.g. "8:00 AM - 10:00 PM"
+  final int priceRange; // 1 = $, 2 = $$, 3 = $$$
+  final String openHours; // e.g. "8:00 AM - 10:00 PM"
   final double distanceFromCampus; // in miles
 
   Restaurant({
