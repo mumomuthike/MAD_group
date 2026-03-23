@@ -13,8 +13,12 @@ import 'package:budget_bytes/utils/app_theme.dart';
 import 'package:budget_bytes/utils/constants.dart';
 import 'package:budget_bytes/screens/budget_tracker_screen.dart';
 import 'package:budget_bytes/models/budget_entry.dart';
+import 'package:budget_bytes/widgets/restaurant_card.dart';
+import 'package:budget_bytes/database/database_helper.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseHelper.instance.database;
   runApp(const MyApp());
 }
 
@@ -104,7 +108,7 @@ class _MyAppState extends State<MyApp> {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: AppStrings.appName,
-          theme: AppTheme.light,
+          theme: isDarkMode ? AppTheme.dark : AppTheme.light,
           initialRoute: AppRoutes.splash,
           routes: {
             AppRoutes.splash: (_) => SplashScreen(themeNotifier: themeNotifier),
@@ -122,18 +126,25 @@ class _MyAppState extends State<MyApp> {
           onGenerateRoute: (settings) {
             if (settings.name == AppRoutes.restaurant) {
               final restaurant = settings.arguments as Restaurant;
-              final menuItems = sampleMenu
-                  .where((item) => item.restaurantId == restaurant.id)
-                  .toList();
 
               return MaterialPageRoute(
-                builder: (_) => RestaurantDetailsScreen(
-                  restaurant: restaurant,
-                  menuItems: menuItems,
+                builder: (_) => FutureBuilder<List<MenuItem>>(
+                  // Ensure DatabaseHelper is imported and initialized
+                  future: DatabaseHelper.instance.getMenuItems(restaurant.id!),
+                  builder: (context, snap) {
+                    if (snap.connectionState == ConnectionState.waiting) {
+                      return const Scaffold(
+                        body: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    return RestaurantDetailsScreen(
+                      restaurant: restaurant,
+                      menuItems: snap.data ?? [],
+                    );
+                  },
                 ),
               );
             }
-
             return null;
           },
         );
