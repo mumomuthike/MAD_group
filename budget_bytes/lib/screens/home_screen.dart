@@ -44,14 +44,10 @@ class _HomeScreenState extends State<HomeScreen>
   static const _blue = Color(0xFF057EE6);
   static const _red = Color(0xFFBC1823);
   static const _gold = Color(0xFFEEBA2B);
-  static const _dark = Color(0xFF111111);
-  static const _grey = Color(0xFF888888);
-  static const _cardBg = Color(0xFFF5F5F5);
 
   @override
   void initState() {
     super.initState();
-
     _heroCtrl = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 900),
@@ -61,7 +57,6 @@ class _HomeScreenState extends State<HomeScreen>
       begin: const Offset(0, 0.06),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _heroCtrl, curve: Curves.easeOut));
-
     _loadData();
   }
 
@@ -76,7 +71,6 @@ class _HomeScreenState extends State<HomeScreen>
     final nearby = await db.filterRestaurants(maxDistance: 0.5);
     final all = await db.getAllRestaurants();
     final spending = await db.getWeeklySpending(widget.userId);
-
     if (mounted) {
       setState(() {
         _nearbyRestaurants = nearby;
@@ -89,9 +83,8 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Future<List<Restaurant>> _getFilteredRestaurants() async {
-    final db = DatabaseHelper.instance;
     if (_selectedCuisine == 'All') return _allRestaurants;
-    return db.filterRestaurants(cuisine: _selectedCuisine);
+    return DatabaseHelper.instance.filterRestaurants(cuisine: _selectedCuisine);
   }
 
   String _priceSymbol(int range) => '\$' * range;
@@ -103,7 +96,6 @@ class _HomeScreenState extends State<HomeScreen>
     return _blue;
   }
 
-  /// Cuisine colors
   Color _cuisineAccent(String cuisine) {
     const map = {
       'American': Color(0xFFBC1823),
@@ -118,7 +110,6 @@ class _HomeScreenState extends State<HomeScreen>
     return map[cuisine] ?? _blue;
   }
 
-  /// Emojis
   String _cuisineEmoji(String cuisine) {
     const map = {
       'American': '🍔',
@@ -133,14 +124,17 @@ class _HomeScreenState extends State<HomeScreen>
     return map[cuisine] ?? '🍽️';
   }
 
-  //
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    SystemChrome.setSystemUIOverlayStyle(
+      isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+    );
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      bottomNavigationBar: _buildBottomNav(),
+      // theme background
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      bottomNavigationBar: _buildBottomNav(isDark),
       body: _loading
           ? _buildLoader()
           : CustomScrollView(
@@ -152,15 +146,14 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 SliverToBoxAdapter(child: _buildNearbyCards()),
                 SliverToBoxAdapter(child: _buildSectionLabel('Browse by Vibe')),
-                SliverToBoxAdapter(child: _buildCuisineChips()),
-                SliverToBoxAdapter(child: _buildFilteredList()),
+                SliverToBoxAdapter(child: _buildCuisineChips(isDark)),
+                SliverToBoxAdapter(child: _buildFilteredList(isDark)),
                 const SliverToBoxAdapter(child: SizedBox(height: 32)),
               ],
             ),
     );
   }
 
-  // the app bar
   Widget _buildAppBar() {
     return SliverAppBar(
       expandedHeight: 240,
@@ -180,7 +173,6 @@ class _HomeScreenState extends State<HomeScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  // eyebrow
                   Row(
                     children: [
                       Container(
@@ -204,7 +196,6 @@ class _HomeScreenState extends State<HomeScreen>
                     ],
                   ),
                   const SizedBox(height: 10),
-                  // headline
                   const Text(
                     'What are\nyou craving?',
                     style: TextStyle(
@@ -247,8 +238,8 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  //
   Widget _buildBudgetBanner() {
+    // Budget banner stays dark-on-dark specifically— it's a branded dark card
     final remaining = (_weeklyBudget - _weeklySpending).clamp(0, _weeklyBudget);
     final pct = (_weeklySpending / _weeklyBudget).clamp(0.0, 1.0);
     final color = _budgetColor();
@@ -257,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen>
       margin: const EdgeInsets.fromLTRB(16, 16, 16, 4),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: _dark,
+        color: const Color(0xFF111111),
         borderRadius: BorderRadius.circular(3),
       ),
       child: Column(
@@ -278,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen>
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 5),
                   Text(
                     '\$${_weeklySpending.toStringAsFixed(2)} spent',
                     style: const TextStyle(
@@ -311,7 +302,6 @@ class _HomeScreenState extends State<HomeScreen>
             ],
           ),
           const SizedBox(height: 16),
-          // progress bar
           ClipRRect(
             borderRadius: BorderRadius.circular(2),
             child: LinearProgressIndicator(
@@ -331,8 +321,9 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // a section label
   Widget _buildSectionLabel(String title, {String? tag}) {
+    // 👇 reads text color from theme
+    final textColor = Theme.of(context).textTheme.titleLarge?.color;
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 28, 20, 16),
       child: Row(
@@ -341,10 +332,10 @@ class _HomeScreenState extends State<HomeScreen>
         children: [
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w800,
-              color: _dark,
+              color: textColor,
               letterSpacing: -0.4,
             ),
           ),
@@ -365,14 +356,14 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // cards
   Widget _buildNearbyCards() {
+    final subText = Theme.of(context).textTheme.bodySmall?.color;
     if (_nearbyRestaurants.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Text(
           'No nearby restaurants found.',
-          style: TextStyle(color: _grey),
+          style: TextStyle(color: subText),
         ),
       );
     }
@@ -387,6 +378,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
+  // Nearby cards are always dark-styled (dark bg + white text) by design
   Widget _buildNearbyCard(Restaurant r) {
     final accent = _cuisineAccent(r.cuisineType);
     final emoji = _cuisineEmoji(r.cuisineType);
@@ -396,7 +388,7 @@ class _HomeScreenState extends State<HomeScreen>
         width: 168,
         margin: const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
-          color: _dark,
+          color: const Color(0xFF111111),
           borderRadius: BorderRadius.circular(6),
         ),
         child: Stack(
@@ -418,7 +410,6 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
               ),
             ),
-            // the content
             Positioned(
               bottom: 0,
               left: 0,
@@ -443,7 +434,7 @@ class _HomeScreenState extends State<HomeScreen>
                       children: [
                         Text(
                           _priceSymbol(r.priceRange),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: _gold,
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
@@ -472,7 +463,6 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
               ),
             ),
-
             Positioned(
               top: 10,
               right: 10,
@@ -498,8 +488,13 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  //
-  Widget _buildCuisineChips() {
+  Widget _buildCuisineChips(bool isDark) {
+    // 👇 chip colors adapt to dark/light
+    final unselectedBg = isDark
+        ? const Color(0xFF2A2A2A)
+        : const Color(0xFFF5F5F5);
+    final unselectedText = isDark ? Colors.white70 : const Color(0xFF111111);
+
     return SizedBox(
       height: 42,
       child: ListView.builder(
@@ -510,15 +505,13 @@ class _HomeScreenState extends State<HomeScreen>
           final c = _cuisines[i];
           final selected = c == _selectedCuisine;
           return GestureDetector(
-            onTap: () async {
-              setState(() => _selectedCuisine = c);
-            },
+            onTap: () => setState(() => _selectedCuisine = c),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               margin: const EdgeInsets.only(right: 8),
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
               decoration: BoxDecoration(
-                color: selected ? _blue : _cardBg,
+                color: selected ? _blue : unselectedBg,
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
                   color: selected ? _blue : Colors.transparent,
@@ -528,7 +521,7 @@ class _HomeScreenState extends State<HomeScreen>
               child: Text(
                 c,
                 style: TextStyle(
-                  color: selected ? Colors.white : _dark,
+                  color: selected ? Colors.white : unselectedText,
                   fontWeight: FontWeight.w600,
                   fontSize: 13,
                 ),
@@ -540,8 +533,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // filtered list
-  Widget _buildFilteredList() {
+  Widget _buildFilteredList(bool isDark) {
     return FutureBuilder<List<Restaurant>>(
       future: _getFilteredRestaurants(),
       builder: (context, snap) {
@@ -555,12 +547,15 @@ class _HomeScreenState extends State<HomeScreen>
         }
         final list = snap.data!;
         if (list.isEmpty) {
-          return const Padding(
-            padding: EdgeInsets.all(32),
+          return Padding(
+            padding: const EdgeInsets.all(32),
             child: Center(
               child: Text(
                 'No restaurants found.',
-                style: TextStyle(color: _grey, fontSize: 15),
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodySmall?.color,
+                  fontSize: 15,
+                ),
               ),
             ),
           );
@@ -570,28 +565,35 @@ class _HomeScreenState extends State<HomeScreen>
           physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           itemCount: list.length,
-          itemBuilder: (_, i) => _buildRestaurantRow(list[i], i),
+          itemBuilder: (_, i) => _buildRestaurantRow(list[i], isDark),
         );
       },
     );
   }
 
-  Widget _buildRestaurantRow(Restaurant r, int index) {
+  Widget _buildRestaurantRow(Restaurant r, bool isDark) {
     final accent = _cuisineAccent(r.cuisineType);
     final emoji = _cuisineEmoji(r.cuisineType);
+    // 👇 card and text colors adapt to theme
+    final cardColor = isDark ? const Color(0xFF1C1C1C) : Colors.white;
+    final borderColor = isDark
+        ? const Color(0xFF2E2E2E)
+        : const Color(0xFFEEEEEE);
+    final textColor = isDark ? Colors.white : const Color(0xFF111111);
+    final subColor = isDark ? Colors.white54 : const Color(0xFF888888);
+
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, '/restaurant', arguments: r),
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: cardColor,
           borderRadius: BorderRadius.circular(7),
-          border: Border.all(color: const Color(0xFFEEEEEE), width: 1.5),
+          border: Border.all(color: borderColor, width: 1.5),
         ),
         child: Row(
           children: [
-            // emoji square
             Container(
               width: 60,
               height: 60,
@@ -604,17 +606,16 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ),
             const SizedBox(width: 14),
-            // text block
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     r.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: _dark,
+                      color: textColor,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -632,35 +633,35 @@ class _HomeScreenState extends State<HomeScreen>
                     children: [
                       Text(
                         _priceSymbol(r.priceRange),
-                        style: const TextStyle(
-                          color: _grey,
+                        style: TextStyle(
+                          color: subColor,
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(width: 8),
-                      const Icon(
+                      Icon(
                         Icons.location_on_outlined,
                         size: 12,
-                        color: _grey,
+                        color: subColor,
                       ),
                       const SizedBox(width: 2),
                       Text(
                         '${r.distanceFromCampus.toStringAsFixed(1)} mi',
-                        style: const TextStyle(color: _grey, fontSize: 12),
+                        style: TextStyle(color: subColor, fontSize: 12),
                       ),
                       const SizedBox(width: 8),
-                      const Icon(
+                      Icon(
                         Icons.access_time_rounded,
                         size: 12,
-                        color: _grey,
+                        color: subColor,
                       ),
                       const SizedBox(width: 2),
                       Flexible(
                         child: Text(
                           r.openHours,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(color: _grey, fontSize: 12),
+                          style: TextStyle(color: subColor, fontSize: 12),
                         ),
                       ),
                     ],
@@ -668,18 +669,22 @@ class _HomeScreenState extends State<HomeScreen>
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right_rounded, color: _grey, size: 22),
+            Icon(Icons.chevron_right_rounded, color: subColor, size: 22),
           ],
         ),
       ),
     );
   }
 
-  // bottom navigation
-  Widget _buildBottomNav() {
+  Widget _buildBottomNav(bool isDark) {
+    final borderColor = isDark
+        ? const Color(0xFF2E2E2E)
+        : const Color(0xFFEEEEEE);
+    final bgColor = isDark ? const Color(0xFF1C1C1C) : Colors.white;
+
     return Container(
-      decoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: Color(0xFFEEEEEE), width: 1)),
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: borderColor, width: 1)),
       ),
       child: BottomNavigationBar(
         currentIndex: _navIndex,
@@ -698,13 +703,13 @@ class _HomeScreenState extends State<HomeScreen>
           }
         },
         selectedItemColor: _blue,
-        unselectedItemColor: _grey,
+        unselectedItemColor: isDark ? Colors.white38 : const Color(0xFF888888),
         selectedLabelStyle: const TextStyle(
           fontWeight: FontWeight.w700,
           fontSize: 11,
         ),
         unselectedLabelStyle: const TextStyle(fontSize: 11),
-        backgroundColor: Colors.white,
+        backgroundColor: bgColor,
         elevation: 0,
         type: BottomNavigationBarType.fixed,
         items: const [
@@ -733,7 +738,6 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  //loader
   Widget _buildLoader() {
     return const Center(
       child: CircularProgressIndicator(color: _blue, strokeWidth: 2.5),

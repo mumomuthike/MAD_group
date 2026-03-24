@@ -6,12 +6,14 @@ class SettingsScreen extends StatefulWidget {
   final User user;
   final ValueChanged<User>? onSave;
   final VoidCallback? onClearData;
+  final ValueNotifier<bool>? themeNotifier;
 
   const SettingsScreen({
     super.key,
     required this.user,
     this.onSave,
     this.onClearData,
+    this.themeNotifier,
   });
 
   @override
@@ -100,7 +102,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Padding(
             padding: const EdgeInsets.only(right: AppSpacing.md),
             child: Image.asset(
-              'assets/logo_blue.png', // replace if needed
+              'assets/logo_blue.png',
               width: 28,
               height: 28,
               errorBuilder: (_, __, ___) =>
@@ -159,10 +161,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Card(
             child: Column(
               children: [
+                ValueListenableBuilder<bool>(
+                  valueListenable: widget.themeNotifier ?? ValueNotifier(false),
+                  builder: (context, isDark, _) => SwitchListTile(
+                    value: isDark,
+                    onChanged: (value) => widget.themeNotifier?.value = value,
+                    secondary: Icon(
+                      isDark
+                          ? Icons.dark_mode_rounded
+                          : Icons.light_mode_rounded,
+                    ),
+                    title: const Text('Dark Mode'),
+                    subtitle: const Text('Switch to dark theme'),
+                  ),
+                ),
+                const Divider(height: 1),
                 SwitchListTile(
                   value: _notificationsEnabled,
                   onChanged: (value) =>
                       setState(() => _notificationsEnabled = value),
+                  secondary: const Icon(Icons.notifications_outlined),
                   title: const Text('Notifications'),
                   subtitle: const Text('Meal reminders and budget alerts'),
                 ),
@@ -171,6 +189,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   value: _showOnlyBudgetFriendly,
                   onChanged: (value) =>
                       setState(() => _showOnlyBudgetFriendly = value),
+                  secondary: const Icon(Icons.savings_outlined),
                   title: const Text('Budget-friendly first'),
                   subtitle: const Text('Prioritize cheaper restaurants'),
                 ),
@@ -188,6 +207,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onPressed: _confirmClearData,
             child: const Text(AppStrings.clearData),
           ),
+          const SizedBox(height: AppSpacing.xl),
         ],
       ),
     );
