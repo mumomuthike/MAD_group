@@ -152,7 +152,7 @@ class _BudgetScreenState extends State<BudgetScreen> {
         padding: const EdgeInsets.all(AppSpacing.screenPadding),
         children: [
           Container(
-            height: AppSizing.budgetBannerHeight,
+            constraints: const BoxConstraints(minHeight: 180),
             padding: const EdgeInsets.all(AppSpacing.lg),
             decoration: BoxDecoration(
               color: AppColors.primaryFaint,
@@ -168,7 +168,7 @@ class _BudgetScreenState extends State<BudgetScreen> {
                   AppStrings.weeklyBudget,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
-                const Spacer(),
+                const SizedBox(height: AppSpacing.md),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
