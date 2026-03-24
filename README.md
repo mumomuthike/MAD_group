@@ -144,9 +144,6 @@ flutter run -d <device_id>
 ```bash
 # Android APK
 flutter build apk --release
-
-# iOS (requires macOS + Xcode)
-flutter build ios --release
 ```
 
 ---
