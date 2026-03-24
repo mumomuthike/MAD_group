@@ -5,6 +5,7 @@ import 'restaurant_details_screen.dart';
 import 'ai_meal_finder_screen.dart';
 import '../widgets/restaurant_card.dart';
 import 'package:flutter/services.dart';
+import 'package:budget_bytes/screens/settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final int userId;
@@ -239,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildBudgetBanner() {
-    // Budget banner stays dark-on-dark specifically— it's a branded dark card
+    // Budget banner stays dark-on-dark intentionally — it's a branded dark card
     final remaining = (_weeklyBudget - _weeklySpending).clamp(0, _weeklyBudget);
     final pct = (_weeklySpending / _weeklyBudget).clamp(0.0, 1.0);
     final color = _budgetColor();
