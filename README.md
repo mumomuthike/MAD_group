@@ -6,8 +6,8 @@ College students often struggle to find affordable food options near campus whil
 
 ## Team Members
 
-| # | Name | Student ID | Role |
-|---|------|------------|------|
+| # | Name | Role |
+|---|------|------|
 | 1 | Mumo Musyoka | UI Design, Frontend, AI Integration |
 | 2 | William Morgan | Business Logic, Database, AI Logic |
 
