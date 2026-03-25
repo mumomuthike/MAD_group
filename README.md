@@ -8,11 +8,10 @@ College students often struggle to find affordable food options near campus whil
 
 | # | Name | Student ID | Role |
 |---|------|------------|------|
-| 1 | Mumo Musyoka | 002705763 | UI Design, Frontend, AI Integration |
-| 2 | William Morgan | 002737412 | Business Logic, Database, AI Logic |
+| 1 | Mumo Musyoka | UI Design, Frontend, AI Integration |
+| 2 | William Morgan | Business Logic, Database, AI Logic |
 
 **Team Name:** Wumo  
-**Repository:** [https://github.com/mumomuthike/MAD_group](https://github.com/mumomuthike/MAD_group)
 
 ---
 
